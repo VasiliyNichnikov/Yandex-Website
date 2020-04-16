@@ -2,9 +2,17 @@ from flask import jsonify
 import datetime
 from flask_restful import Resource
 from flask_restful import reqparse
-from Task_1.model_user_authorization_form import abort_if_users_not_found
+from flask import abort, app
 from Task_1.data_models import db_session
 from Task_1.data_models.users import User
+
+
+def abort_if_users_not_found(user_id):
+    session = db_session.create_session()
+    user = session.query(User).get(user_id)
+    print(user)
+    if not user:
+        abort(404, message=f"User {user_id} not found")
 
 
 class UsersResource(Resource):

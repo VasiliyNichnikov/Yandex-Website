@@ -5,6 +5,7 @@ from flask import redirect
 from flask import Flask
 from flask import abort
 from Task_1.Resource_Users import users_resource
+from Task_1.Resourse_Jobs import jobs_resource
 from Task_1.data_models import db_session
 from Task_1.data_models.users import User
 from Task_1.data_models.jobs import Jobs
@@ -70,15 +71,6 @@ def register():
     return render_template('register.html', title='Регистрация', form=form)
 
 
-@app.errorhandler(404)
-def abort_if_users_not_found(user_id):
-    session = db_session.create_session()
-    user = session.query(User).get(user_id)
-    print(user)
-    if not user:
-        abort(404, message=f"User {user_id} not found")
-
-
 @app.route('/')
 def works():
     session = db_session.create_session()
@@ -126,4 +118,7 @@ if __name__ == "__main__":
     db_session.global_init("db/program.sqlite")
     api.add_resource(users_resource.UsersListResource, '/api/users')
     api.add_resource(users_resource.UsersResource, '/api/users/<int:user_id>')
+
+    api.add_resource(jobs_resource.JobsListResource, '/api/jobs')
+    api.add_resource(jobs_resource.JobsResource, '/api/jobs/<int:job_id>')
     app.run(port=5001, host='127.0.0.1')
