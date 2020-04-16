@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Works log</h1>
+        <form action="" method="post">
+            {% for i in listUsers %}
+                    <h3 style="text-align: left;">Action #{{ i["id"] }}</h3>
+                    <div class="row" style="height: 50px; background: rgba(86, 61, 124, 0.2);" >
+                        <div class="col">Title for activity</div>
+                        <div class="col">Team leader</div>
+                        <div class="col">Duration</div>
+                        <div class="col">List of collaborators</div>
+                        <div class="col">Is finished</div>
+                        {% if current_user.is_authenticated %}
+                            <div class="col">Change</div>
+                        {% endif %}
+                    </div>
+                    <div class="row" style="height: 50px; background: rgba(86, 61, 124, 0.15);" >
+                        <div class="col">{{ i["job"] }}</div>
+                        <div class="col">{{ i["team_leader"] }}</div>
+                        <div class="col">{{ i["work_size"] }} часов</div>
+                        <div class="col">{{ i["collaborators"] }}</div>
+                        <div class="col">
+                            {% if i["is_finished"] %}
+                                Work is finished
+                            {% else %}
+                                The work is not finished
+                            {% endif %}
+                        </div>
+                        {% if current_user.is_authenticated %}
+                            <div class="col"><a class="btn btn-primary" href="/add_works/<{{ i["team_leader"] }}>">Изменить</a></div>
+                        {% endif %}
+                        <!--<div class="col"><button id="change_button" type="button" class="btn btn-primary">Изменить</button></div> -->
+                    </div>
+            {% endfor %}
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        {{ form.csrf_token }}
+    </div>
+    <div style="width: 400px; padding-top: 10px;" class="center_block">
+        <h1>{{ title }}</h1>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.name }}
+            {% for field in form if field.name != "csrf_token" %}
+                <div>
+                    {% if field.name != "submit" and field.name != "is_finished"%}
+                        {{ field.label() }}
+                        {{ field(class="form-control") }}
+                    {% elif field.name == "is_finished" %}
+                        {{ field.label() }}
+                        {{ field(class="checkbox mb-3") }}
+                    {% else %}
+                        {{ field(type="submit", class="btn btn-primary") }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {{ message }}
+        </form>
+    </div>
+{% endblock %}
